@@ -124,51 +124,36 @@ public class Board {
     }
 
     private Board moveLeft() {
-        int[][] leftMove = new int[dimension()][dimension()];
-
-        for (int i = 0; i < dimension(); i++) {
-            for (int j = 0; j < dimension(); j++) {
-                leftMove[i][j] = boardArray[i][j];
-            }
+        int [][]newBoard = copyOf(boardArray);
+        int row = zeroCoords()[0];
+        int column = zeroCoords()[1];
+        if (column < dimension() - 1) {
+            int temp = newBoard[row][column + 1];
+            newBoard[row][column + 1] = newBoard[row][column];
+            newBoard[row][column] = temp;
         }
+        Board result = new Board(newBoard);
+        return result;
+    }
 
-        int row = 0;
-        int column = 0;
+    private int[] zeroCoords() {
+        int[] result = new int[2];
         for (int i = 0; i < dimension(); i++) {
             for (int j = 0; j < dimension(); j++) {
                 if (isZero(i, j)) {
-                    column = j;
-                    row = i;
+                    result[0] = i;
+                    result[1] = j;
+                    return result;
                 }
             }
         }
-        if (column < dimension() - 1) {
-            int temp = leftMove[row][column + 1];
-            leftMove[row][column + 1] = leftMove[row][column];
-            leftMove[row][column] = temp;
-        }
-        Board newBoard = new Board(leftMove);
-        return newBoard;
+        return result;
     }
 
     private Board moveRight() {
-        int[][] newBoard = new int[dimension()][dimension()];
-
-        for (int i = 0; i < dimension(); i++) {
-            for (int j = 0; j < dimension(); j++) {
-                newBoard[i][j] = boardArray[i][j];
-            }
-        }
-        int row = 0;
-        int column = 0;
-        for (int i = 0; i < dimension(); i++) {
-            for (int j = 0; j < dimension(); j++) {
-                if (isZero(i, j)) {
-                    column = j;
-                    row = i;
-                }
-            }
-        }
+        int [][]newBoard = copyOf(boardArray);
+        int row = zeroCoords()[0];
+        int column = zeroCoords()[1];
         if (column > 0) {
             int temp = newBoard[row][column - 1];
             newBoard[row][column - 1] = newBoard[row][column];
@@ -178,23 +163,21 @@ public class Board {
         return result;
     }
 
-    private Board moveUp() {
+    private int[][] copyOf(int[][] argument) {
         int[][] newBoard = new int[dimension()][dimension()];
         for (int i = 0; i < dimension(); i++) {
             for (int j = 0; j < dimension(); j++) {
                 newBoard[i][j] = boardArray[i][j];
             }
         }
-        int row = 0;
-        int column = 0;
-        for (int i = 0; i < dimension(); i++) {
-            for (int j = 0; j < dimension(); j++) {
-                if (isZero(i, j)) {
-                    column = j;
-                    row = i;
-                }
-            }
-        }
+        return newBoard;
+    }
+
+    private Board moveUp() {
+        int [][]newBoard = copyOf(boardArray);
+        int row = zeroCoords()[0];
+        int column = zeroCoords()[1];
+
         if (row < dimension() - 1) {
             int temp = newBoard[row + 1][column];
             newBoard[row + 1][column] = newBoard[row][column];
@@ -205,22 +188,9 @@ public class Board {
     }
 
     private Board moveDown() {
-        int[][] newBoard = new int[dimension()][dimension()];
-        for (int i = 0; i < dimension(); i++) {
-            for (int j = 0; j < dimension(); j++) {
-                newBoard[i][j] = boardArray[i][j];
-            }
-        }
-        int row = 0;
-        int column = 0;
-        for (int i = 0; i < dimension(); i++) {
-            for (int j = 0; j < dimension(); j++) {
-                if (isZero(i, j)) {
-                    column = j;
-                    row = i;
-                }
-            }
-        }
+        int [][]newBoard = copyOf(boardArray);
+        int row = zeroCoords()[0];
+        int column = zeroCoords()[1];
         if (row > 0) {
             int temp = newBoard[row - 1][column];
             newBoard[row - 1][column] = newBoard[row][column];
